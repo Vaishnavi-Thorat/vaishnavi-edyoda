@@ -1,0 +1,34 @@
+* Assignment 1
+Q. Write a common use-case, where you will use a daemon set instead of replica set.
+
+Replica set is used to ensure that defined set of Pods are running all the time.
+daemon set is used to ensure that all nodes are running the copy of pod.
+daemon sets are commonly used for logging and monitoring for hosts. 
+for example a node needs a service which collects the vaccination data and stores into database.
+if you want to get data from each node, the best option is to schedule a container on every node that will gather these data from each individual node. 
+if you schedule one container to gather data from all nodes, you would run the risk that the node on which the service is running dies for whatever reason, and you’d lose data from the whole cluster. 
+but having a copy of the same container on every node will help.
+
+
+*Assignment 2
+Q. Suppose you have deployed your application using a deployment controller. Assume the initial number of replicas is one. Write the steps needed to update a container's image using deployment, making sure that there is zero downtime.
+
+step1 : kubectl patch deployment kubia -p '{"spec": {"minReadySeconds": 10}}'
+step2 : kubectl set image deployment kubia nodejs=luksa/kubia:v2
+
+*Assignment 3
+Q. You have deployed an application, that is listening at port 8000. You used a replica-set to deploy it and created a NodePort service to make it accessible. But when you test it, somehow the application is not reachable at the port. Write down your approach and sequentially all the steps that you will take to find out the issue.
+
+check node port,IP,specs,labels,selector, in YAML file
+check the syntax
+
+*Assignment 4
+Q. VOTING APP -DEMO practical
+
+1)after voting result and restarts numbers were changed.
+2)after deleting the voter pod new voter pod got created but with different Id
+3)after deleting the worker pod new worker pod got created but with different Id
+4)after deleting the db pod new db pod got created and results were captured in restarts but not in the result app
+ so I deleted the result pod using below command
+ kubectl delete po <result pod>
+ after that new copy of result pod created.
